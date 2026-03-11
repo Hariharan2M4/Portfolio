@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M. Hariharan — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --bg: #080d14;
+    --bg2: #0f1824;
+    --card: #0d1520;
+    --border: #1a2840;
+    --text: #c8d8e8;
+    --muted: #5a7a96;
+    --cyan: #00c8e8;
+    --blue: #3b82f6;
+    --green: #10d97e;
+    --white: #f0f8ff;
+    --font: 'Outfit', sans-serif;
+    --script: 'Dancing Script', cursive;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* subtle grid bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,232,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,232,0.025) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 60px;
+    background: rgba(8,13,20,0.93);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo { font-family: var(--script); font-size: 30px; color: var(--white); }
+
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--cyan); }
+
+  .nav-resume {
+    font-size: 13px; font-weight: 600;
+    color: var(--cyan); border: 1.5px solid var(--cyan);
+    padding: 7px 20px; border-radius: 50px; text-decoration: none; transition: all 0.2s;
+  }
+  .nav-resume:hover { background: var(--cyan); color: #000; }
+
+  /* HERO */
+  .hero-wrap {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center;
+    min-height: 100vh; padding: 120px 60px 80px; gap: 60px;
+  }
+
+  .hero-left { flex: 1; }
+
+  .hero-name {
+    font-size: clamp(38px, 5.5vw, 66px); font-weight: 800;
+    color: var(--white); line-height: 1.08; margin-bottom: 10px;
+    opacity: 0; animation: fadeUp 0.6s 0.1s ease forwards;
+  }
+
+  .hero-role {
+    font-size: clamp(30px, 4vw, 52px); font-weight: 800;
+    line-height: 1.1; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.6s 0.22s ease forwards;
+  }
+  .hero-role .w1 { color: var(--cyan); }
+  .hero-role .w2 { color: var(--blue); }
+
+  .hero-desc {
+    font-size: 15px; color: var(--muted); max-width: 500px;
+    line-height: 1.8; margin-bottom: 36px; font-weight: 300;
+    opacity: 0; animation: fadeUp 0.6s 0.34s ease forwards;
+  }
+  .hero-desc strong { color: var(--text); font-weight: 600; }
+
+  .hero-btns {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.6s 0.46s ease forwards;
+  }
+
+  .btn-primary {
+    background: var(--cyan); color: #000;
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    padding: 12px 28px; border-radius: 50px; border: none;
+    cursor: pointer; text-decoration: none; transition: background 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: #00e6ff; }
+
+  .btn-outline {
+    background: transparent; color: var(--cyan);
+    font-family: var(--font); font-size: 14px; font-weight: 700;
+    padding: 12px 28px; border-radius: 50px;
+    border: 1.5px solid var(--cyan);
+    cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--cyan); color: #000; }
+
+  .hero-right {
+    flex-shrink: 0;
+    opacity: 0; animation: fadeUp 0.7s 0.28s ease forwards;
+  }
+
+  .hero-photo-placeholder {
+    width: 280px; height: 280px; border-radius: 50%;
+    background: var(--bg2);
+    border: 2px dashed var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; color: var(--muted); font-size: 12px;
+    font-weight: 500; text-align: center; padding: 20px;
+  }
+  .hero-photo-placeholder svg { width: 44px; height: 44px; stroke: var(--border); fill: none; stroke-width: 1.5; }
+
+  /* To use real photo: <img class="hero-photo" src="your-photo.jpg" alt="Hariharan"> */
+  .hero-photo { width: 280px; height: 280px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); display: block; }
+
+  /* TOOLS */
+  #tools {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 52px 60px; text-align: center;
+  }
+  .tools-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
+  .tools-icons { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+  .tool-icon { display: flex; flex-direction: column; align-items: center; gap: 7px; transition: transform 0.2s; }
+  .tool-icon:hover { transform: translateY(-5px); }
+  .tool-icon-box {
+    width: 58px; height: 58px; border-radius: 14px;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; transition: border-color 0.2s;
+  }
+  .tool-icon:hover .tool-icon-box { border-color: var(--cyan); box-shadow: 0 0 16px rgba(0,200,232,0.15); }
+  .tool-name { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; }
+
+  /* SECTION */
+  .section-wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 88px 60px; }
+
+  .section-title {
+    font-size: clamp(30px, 3.5vw, 44px); font-weight: 800;
+    color: var(--cyan); text-align: center; margin-bottom: 52px;
+  }
+
+  /* SKILLS — single unified card */
+  .skills-cloud {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 40px;
+    display: flex; flex-wrap: wrap; gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .chip {
+    font-size: 13px; font-weight: 500;
+    padding: 7px 16px; border-radius: 50px;
+    background: var(--bg2); border: 1px solid var(--border);
+    color: var(--text); transition: all 0.2s; cursor: default;
+  }
+  .chip:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,200,232,0.06); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 18px; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    text-decoration: none; display: block;
+  }
+  .project-card:hover { border-color: var(--cyan); transform: translateY(-6px); box-shadow: 0 8px 32px rgba(0,200,232,0.08); }
+
+  .project-img { height: 200px; position: relative; overflow: hidden; background: var(--bg2); }
+  .project-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover .project-img img { transform: scale(1.05); }
+  /* Fallback placeholder if no image yet */
+  .project-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    flex-direction: column; gap: 8px;
+  }
+  .project-img-placeholder svg { width: 32px; height: 32px; stroke: var(--border); fill: none; stroke-width: 1.5; }
+  .pi-badge {
+    position: absolute; top: 10px; right: 10px; z-index: 2;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 50px;
+    background: rgba(0,0,0,0.65); color: var(--cyan);
+    border: 1px solid rgba(0,200,232,0.3);
+  }
+
+  .project-body { padding: 18px 18px 22px; }
+  .project-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.62; margin-bottom: 14px; }
+  .project-footer { display: flex; align-items: center; justify-content: space-between; }
+  .project-tags-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .project-tag {
+    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 50px;
+    background: rgba(0,200,232,0.08); border: 1px solid rgba(0,200,232,0.25); color: var(--cyan);
+  }
+  .arrow-link { font-size: 17px; color: var(--muted); transition: color 0.2s; }
+  .project-card:hover .arrow-link { color: var(--cyan); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 14px; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative; margin-bottom: 46px;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+
+  .timeline-dot {
+    position: absolute; left: -34px; top: 14px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--cyan); border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(0,200,232,0.15);
+  }
+
+  .tl-header { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tl-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .tl-role { font-size: 16px; font-weight: 700; color: var(--white); flex: 1; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 11px; border-radius: 50px; border: 1px solid; white-space: nowrap; }
+  .b-full  { color: var(--green); border-color: rgba(16,217,126,0.4); background: rgba(16,217,126,0.07); }
+  .b-inter { color: #60a5fa; border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.07); }
+  .tl-date { font-size: 12px; color: var(--muted); font-weight: 500; margin-left: auto; white-space: nowrap; }
+  .tl-desc { font-size: 14px; color: var(--muted); line-height: 1.78; max-width: 800px; }
+  .tl-bullets { list-style: none; padding: 0; }
+  .tl-bullets li { font-size: 14px; color: var(--muted); line-height: 1.75; padding-left: 16px; position: relative; margin-bottom: 4px; }
+  .tl-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--cyan); font-size: 12px; top: 2px; }
+
+  /* EDUCATION */
+  .edu-item { display: flex; align-items: flex-start; gap: 16px; }
+  .edu-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .edu-info { flex: 1; }
+  .edu-degree { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+  .edu-school { font-size: 13px; color: var(--muted); }
+  .edu-right { text-align: right; margin-left: auto; }
+  .edu-grade {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    padding: 3px 12px; border-radius: 50px;
+    color: var(--green); border: 1px solid rgba(16,217,126,0.4);
+    background: rgba(16,217,126,0.07); margin-bottom: 5px;
+  }
+  .edu-date { font-size: 12px; color: var(--muted); }
+
+  /* CERTIFICATIONS */
+  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .cert-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px;
+    display: flex; align-items: center; gap: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .cert-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  .cert-icon { font-size: 28px; flex-shrink: 0; }
+  .cert-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+  .cert-issuer { font-size: 12px; color: var(--muted); }
+
+  /* CONTACT */
+  .contact-title { font-size: clamp(30px, 3.5vw, 44px); font-weight: 800; color: var(--white); text-align: center; margin-bottom: 14px; }
+  .contact-sub { font-size: 15px; color: var(--muted); text-align: center; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+  .contact-links { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 36px; }
+  .contact-link { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .contact-link:hover { color: var(--cyan); }
+  .social-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .social-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    text-decoration: none; color: var(--muted); transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); box-shadow: 0 0 12px rgba(0,200,232,0.2); }
+
+  footer { position: relative; z-index: 1; text-align: center; padding: 22px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+  footer strong { color: var(--text); }
+
+  /* SCROLL REVEAL */
+  .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .js-loaded .fade-in { opacity: 0; transform: translateY(22px); }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .timeline-item { opacity: 1; transform: translateY(0); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .js-loaded .timeline-item { opacity: 0; transform: translateY(20px); }
+  .timeline-item.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 14px 24px; }
+    .nav-links { gap: 16px; }
+    .hero-wrap { flex-direction: column-reverse; align-items: flex-start; padding: 110px 24px 60px; }
+    .hero-photo-placeholder { width: 200px; height: 200px; }
+    .section-wrap { padding: 64px 24px; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    #tools { padding: 36px 24px; }
+    .cert-grid { grid-template-columns: 1fr; }
+    .tl-date { margin-left: 0; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .edu-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Hariharan M</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a class="nav-resume" href="https://drive.google.com/file/d/1v1SIJ8DVCDjmWBcUWV_lWyLO6F3tsUBU/view?usp=drive_link" target="_blank">Resume</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="about">
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <h1 class="hero-name">Hi, I'm M. Hariharan</h1>
+      <div class="hero-role">I'm a <span class="w1">Data</span> <span class="w2">Analyst</span></div>
+      <p class="hero-desc">
+        B.Tech student at <strong>VIT Chennai</strong> passionate about turning raw data into
+        <strong>actionable insights</strong>. Experienced with Python, SQL, and Power BI through
+        real-world internships at <strong>Samsung R&amp;D</strong> and <strong>Southern Railways</strong>.
+      </p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Get in touch</a>
+        <a href="https://drive.google.com/file/d/1v1SIJ8DVCDjmWBcUWV_lWyLO6F3tsUBU/view?usp=drive_link" target="_blank" class="btn-outline">Resume</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      
+      <img class="hero-photo" src="Passport (2).jpeg" alt="Hariharan">  
+      
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<div id="tools">
+  <div class="tools-label">Experience With</div>
+  <div class="tools-icons">
+    <div class="tool-icon"><div class="tool-icon-box">🐍</div><span class="tool-name">Python</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">🛢️</div><span class="tool-name">SQL</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">📊</div><span class="tool-name">Power BI</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">📗</div><span class="tool-name">Excel</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">🗄️</div><span class="tool-name">MySQL</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">🌐</div><span class="tool-name">Streamlit</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">☁️</div><span class="tool-name">Azure</span></div>
+    <div class="tool-icon"><div class="tool-icon-box">🤖</div><span class="tool-name">ML</span></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <h2 class="section-title fade-in">Skills</h2>
+    <div class="skills-cloud fade-in">
+      <span class="chip">Python</span>
+      <span class="chip">C</span>
+      <span class="chip">C++</span>
+      <span class="chip">SQL</span>
+      <span class="chip">Power BI</span>
+      <span class="chip">Excel</span>
+      <span class="chip">MySQL</span>
+      <span class="chip">Microsoft Office</span>
+      <span class="chip">Pandas</span>
+      <span class="chip">Streamlit</span>
+      <span class="chip">Data Cleaning</span>
+      <span class="chip">EDA</span>
+      <span class="chip">KPI Analysis</span>
+      <span class="chip">Dashboard Development</span>
+      <span class="chip">Data Visualization</span>
+      <span class="chip">Business Reporting</span>
+      <span class="chip">MIS Reports</span>
+      <span class="chip">Trend Analysis</span>
+      <span class="chip">Machine Learning</span>
+      <span class="chip">Logistic Regression</span>
+      <span class="chip">Classification Models</span>
+      <span class="chip">SLAM</span>
+      <span class="chip">Azure Data Fundamentals</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <h2 class="section-title fade-in">Projects</h2>
+    <div class="projects-grid">
+
+      <a class="project-card fade-in" href="https://github.com/Hariharan2M4/heart-disease-app" target="_blank">
+        <div class="project-img">
+          <img src="Heart.jpg" alt="Heart Disease App"> 
+          
+          <div class="pi-badge">Featured</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Heart Disease Prediction App</div>
+          <div class="project-desc">ML app using logistic regression & decision trees to predict heart disease. Achieved up to 90% accuracy with a real-time Streamlit interface for user inputs.</div>
+          <div class="project-footer">
+            <div class="project-tags-row">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">Streamlit</span>
+            </div>
+            <span class="arrow-link">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/Hariharan2M4/Zomato-Insights-Dashboard" target="_blank">
+        <div class="project-img">
+          <img src="zomato.png" alt="Zomato Dashboard">
+          
+        </div>
+        <div class="project-body">
+          <div class="project-title">Zomato Insights Dashboard</div>
+          <div class="project-desc">Interactive Power BI dashboard analyzing restaurant ratings, cuisine trends, and city-level order data. Cleaned raw Zomato data to surface top cuisines and high-demand areas.</div>
+          <div class="project-footer">
+            <div class="project-tags-row">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">Power BI</span>
+            </div>
+            <span class="arrow-link">↗</span>
+          </div>
+        </div>
+      </a>
+      <a class="project-card fade-in" href="https://github.com/Hariharan2M4/Zomato-Insights-Dashboard" target="_blank">
+        <div class="project-img">
+          <img src="linkedln.png" alt="LinkedIn Job Analysis">
+          
+        </div>
+        <div class="project-body">
+          <div class="project-title">LinkedIn India Job Market Analysis</div>
+          <div class="project-desc">Built an end-to-end data analytics project on 653 real LinkedIn India job postings. Cleaned raw scraped data, performed EDA across 8 dimensions, and deployed a Skill-Based Job Recommender using Streamlit. Key finding — Bengaluru holds 27% of India's data roles and Mid-Senior level dominates at 40%.</div>
+          <div class="project-footer">
+            <div class="project-tags-row">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">Streamlit</span>
+              <span class="project-tag">Web Scraping</span>
+              <span class="project-tag">EDA</span>
+            </div>
+            <span class="arrow-link">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/Hariharan2M4/cricket-data-analysis" target="_blank">
+        <div class="project-img">
+          <img src="Crciket.png" alt="Cricket Best XI Analysis Dashboard displaying player statistics and performance metrics. The dashboard shows a dark blue interface with player analysis section featuring tabs for Player Analysis and Final 11. A data table displays middle order batsmen with columns for Name, Team, Batting Style, Innings Batted, Runs, Balls Faced, Strike Rate, Batting Average, Batting Position, and Boundary Percentage. Players listed include Lorcan Tucker, Suryakumar Yadav, Virat Kohli, Glenn Phillips, and Daryl Mitchell with their respective statistics shown in pink-highlighted bars. Below the table are multiple visualizations including bar charts showing strike rate and average balls faced trends, and a scatter plot analyzing the relationship between batting average and strike rate. The interface includes filter buttons and interactive Power BI visualization tools, presenting a comprehensive analytical dashboard for cricket player performance evaluation.">
+        
+        </div>
+        <div class="project-body">
+          <div class="project-title">Cricket Best XI Analysis Dashboard</div>
+          <div class="project-desc">This project is an interactive data analytics dashboard built using Microsoft Power BI to identify the Best Playing XI in cricket based on player performance data.The dashboard enables quick and data-driven selection of a balanced and high-performing cricket team by comparing players across multiple statistical dimensions</div>
+          <div class="project-footer">
+            <div class="project-tags-row">
+              <span class="project-tag">Power BI</span>
+              <span class="project-tag">Excel</span>
+              <span class="project-tag">SQL</span>
+            </div>
+            <span class="arrow-link">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/24hariharan" target="_blank">
+        <div class="project-img">
+          <img src="defect.jpg" alt="GitHub">
+          
+        </div>
+        <div class="project-body">
+          <div class="project-title">Defect Detection in Automotive Parts using Machine Vision</div>
+          <div class="project-desc">Built a real-time defect detection system for automotive spur gears using deep-learning–based machine vision with a multi-view inspection setup (top and side/bottom views) to detect defects from all visible sides of the component. A custom GUI was developed to visualize defect localization and final inspection results, and the system was integrated with hardware indicators where a green LED glows for non-defective parts and a red LED glows for defective parts. A comparative study of multiple detection models was performed, and the best model was deployed for fast and reliable shop-floor inspection</div>
+          <div class="project-footer">
+            <div class="project-tags-row">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">ML</span>
+              <span class="project-tag">Object Detection</span>
+            </div>
+            <span class="arrow-link">↗</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <h2 class="section-title fade-in">Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-header">
+          <div class="tl-icon">📊</div>
+          <div class="tl-role">Data Analyst Intern — ADRIG AI Technologies</div>
+          <span class="badge b-inter">Internship</span>
+          <div class="tl-date">May 2025 – Jun 2025</div>
+        </div>
+        <ul class="tl-bullets">
+          <li>Worked onsite with Southern Railways (Trivandrum Division) to support deployment and optimization of the Rolling Block Web Application.</li>
+          <li>Conducted data validation, trend analysis, and workflow assessment across Engineering, S&T, and Track departments.</li>
+          <li>Built dashboards, analyzed logs, and generated MIS reports to support data-driven decision-making.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-header">
+          <div class="tl-icon">🔬</div>
+          <div class="tl-role">Samsung Prism Research Intern — Samsung R&D Institute</div>
+          <span class="badge b-inter">Internship</span>
+          <div class="tl-date">Jan 2025 – Jun 2025</div>
+        </div>
+        <ul class="tl-bullets">
+          <li>Developed a persistence solution to retain object positions during device sleep-wake cycles, improving system stability.</li>
+          <li>Used SLAM-based methods to improve object tracking and positioning in 3D space.</li>
+          <li>Assisted in testing and documenting results to support system stability and performance improvements.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <h2 class="section-title fade-in">Education</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="edu-item" style="opacity:1;transform:none;">
+          <div class="edu-icon">🏛️</div>
+          <div class="edu-info">
+            <div class="edu-degree">B.Tech in Electronics and Communication Engineering</div>
+            <div class="edu-school">Vellore Institute of Technology, Chennai</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-grade">CGPA: 9.03 / 10</div>
+            <div class="edu-date">2022 – 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="edu-item" style="opacity:1;transform:none;">
+          <div class="edu-icon">🏫</div>
+          <div class="edu-info">
+            <div class="edu-degree">Higher Secondary (Class XII)</div>
+            <div class="edu-school">Kendriya Vidyalaya No.1 AFS Tambaram, Chennai</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-grade">CGPA: 9.2 / 10</div>
+            <div class="edu-date">2021 – 2022</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <h2 class="section-title fade-in" style="margin-top:64px;">Certifications</h2>
+    <div class="cert-grid">
+      <div class="cert-card fade-in">
+        <div class="cert-icon">☁️</div>
+        <div>
+          <div class="cert-name">Azure Data Fundamentals</div>
+          <div class="cert-issuer">Microsoft Certified</div>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon">📊</div>
+        <div>
+          <div class="cert-name">Data Analytics Bootcamp</div>
+          <div class="cert-issuer">Udemy</div>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon">🌐</div>
+        <div>
+          <div class="cert-name">Data Analytics Essentials</div>
+          <div class="cert-issuer">Cisco</div>
+        </div>
+      </div>
+      <div class="cert-card fade-in">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">Power BI Workshop</div>
+          <div class="cert-issuer">Skill Nation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <h2 class="contact-title fade-in">Get In Touch</h2>
+    <p class="contact-sub fade-in">
+      Ready to collaborate on data projects? Whether you have a challenge to solve or an opportunity to discuss — I'd love to connect!
+    </p>
+    <div class="contact-links fade-in">
+      <span class="contact-link" style="cursor:pointer;" onclick="this.innerHTML='✉️ &nbsp;24hariharan@gmail.com';this.style.cursor='default';">✉️ &nbsp;24hariharan&#64;gmail&#46;com</span>
+      <a class="contact-link" href="tel:+916381317177">📞 &nbsp;638-131-7177</a>
+    </div>
+    <div class="social-row fade-in">
+      <a class="social-btn" href="https://linkedin.com/in/m-hariharan" target="_blank" title="LinkedIn">in</a>
+      <a class="social-btn" href="https://github.com/Hariharan2M4" target="_blank" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+      <span class="social-btn" style="cursor:pointer;" title="Email" onclick="navigator.clipboard.writeText('24hariharan@gmail.com').then(()=>alert('Email copied to clipboard!'))">✉</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>©Designed By <strong>M. Hariharan</strong></p>
+</footer>
+
+<script>
+  // Mark body so CSS animations activate only when JS is running
+  document.body.classList.add('js-loaded');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in, .timeline-item').forEach((el, i) => {
+    if (el.classList.contains('timeline-item')) el.style.transitionDelay = `${(i % 5) * 0.1}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
